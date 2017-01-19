@@ -56,12 +56,7 @@ module Gphotos
     def self.load_config(file)
       full_path = File.expand_path(file)
       if File.exists?(full_path)
-        config = YAML.load_file(full_path)
-        passwd_exec = config[:passwd_exec]
-        if passwd_exec
-          config[:passwd] = %x{#{passwd_exec}}.strip
-        end
-        config
+        YAML.load_file(full_path)
       else
         {}
       end
@@ -78,7 +73,7 @@ module Gphotos
       if @options.list
         files.concat(open(@options.list).read.split("\n"))
       end
-      gphotos = Gphotos.new(@options.email, @options.passwd)
+      gphotos = Gphotos.new(@options.email, @options.passwd, @options.passwd_exec)
       gphotos.upload(files)
       gphotos.quit
     end
