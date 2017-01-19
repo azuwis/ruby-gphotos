@@ -78,11 +78,9 @@ module Gphotos
       if @options.list
         files.concat(open(@options.list).read.split("\n"))
       end
-      files.each do |file|
-        if File.exists?(file)
-          puts file
-        end
-      end
+      gphotos = Gphotos.new(@options.email, @options.passwd)
+      gphotos.upload(files)
+      gphotos.quit
     end
 
   end
