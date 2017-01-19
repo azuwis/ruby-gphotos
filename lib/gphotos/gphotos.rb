@@ -1,4 +1,5 @@
 require 'selenium-webdriver'
+require 'yaml'
 
 module Gphotos
   class Gphotos
@@ -8,11 +9,26 @@ module Gphotos
       @driver = Selenium::WebDriver.for(:chrome)
       @driver.manage.timeouts.implicit_wait = options[:page_timeout]
       @wait = Selenium::WebDriver::Wait.new(:timeout => options[:upload_timeout])
+      @cookies = File.expand_path('~/.gphotos.cookies')
+      load_cookies(@cookies)
       login(email, passwd)
+    end
+
+    def load_cookies(file)
+      @driver.navigate.to 'https://photos.google.com/'
+      if File.exists?(file)
+        YAML.load_file(file).each do |cookie|
+          @driver.manage.add_cookie(cookie)
+        end
+      end
     end
 
     def login(email, passwd)
       @driver.navigate.to 'https://photos.google.com/albums'
+
+      if @driver.title.include?('Albums')
+        return
+      end
 
       element = @driver.find_element(:id => 'Email')
       element.send_keys(email)
@@ -21,6 +37,9 @@ module Gphotos
       element = @driver.find_element(:id => 'Passwd')
       element.send_keys(passwd)
       element.submit
+
+      @driver.find_element(:css => 'input[type="file"]')
+      File.write(@cookies ,@driver.manage.all_cookies.to_yaml)
     end
 
     def upload(files)
