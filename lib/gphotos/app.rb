@@ -56,7 +56,7 @@ module Gphotos
     def self.load_config(file)
       full_path = File.expand_path(file)
       if File.exists?(full_path)
-        config = YAML.load(open(full_path).read)
+        config = YAML.load_file(full_path)
         passwd_exec = config[:passwd_exec]
         if passwd_exec
           config[:passwd] = %x{#{passwd_exec}}.strip
