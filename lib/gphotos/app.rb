@@ -73,8 +73,23 @@ module Gphotos
       if @options.list
         files.concat(open(@options.list).read.split("\n"))
       end
+
       gphotos = Gphotos.new(@options.email, @options.passwd, @options.passwd_exec)
-      gphotos.upload(files)
+
+      puts 'upload:'
+      uploaded, skipped = gphotos.upload(files) do |file, status|
+        if status == :uploaded
+          puts "#{file}"
+        else
+          puts "#{file} (#{status})"
+        end
+      end
+
+      if skipped.size > 0
+        puts
+        puts 'skipped:'
+        puts skipped.join("\n")
+      end
       gphotos.quit
     end
 

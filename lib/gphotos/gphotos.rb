@@ -46,16 +46,19 @@ module Gphotos
       File.write(@cookies ,@driver.manage.all_cookies.to_yaml)
     end
 
-    def upload(files)
+    def upload(files, &block)
       element = @driver.find_element(:css => 'input[type="file"]')
       # XXX Get upload working
       element.send_keys(files[0])
 
+      uploaded = []
       skipped = []
       result = ''
-      puts 'upload:'
       files.each do |file|
-        next if !File.exists?(file)
+        if !File.exists?(file)
+          block.call(file, :not_exist)
+          next
+        end
         current_result = ''
         element.send_keys(file)
         @wait.until do
@@ -70,22 +73,15 @@ module Gphotos
 
         if current_result.include?('skipped') and result.split("\n")[0] != current_result.split("\n")[0]
           skipped.push(file)
-          puts "#{file} (skipped)"
+          block.call(file, :skipped)
         else
-          puts file
+          uploaded.push(file)
+          block.call(file, :uploaded)
         end
 
         result = current_result
       end
-      puts
-      puts 'result:'
-      puts result
-
-      if skipped.size > 0
-        puts
-        puts 'skipped:'
-        puts skipped.join("\n")
-      end
+      [uploaded, skipped]
     end
 
     def quit
