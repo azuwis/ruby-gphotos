@@ -29,9 +29,9 @@ Command line options:
     Usage: gphotos [options] file...
 
     Specific options:
-        -e, --email=EMAIL                Set email
-        -p, --passwd=PASSWD              Set passwd
-        -l, --list=FILE                  Read list from file
+        -e, --email=EMAIL                Set email to EMAIL
+        -p, --passwd=PASSWD              Set passwd to PASSWD
+        -l, --list=FILE                  Read list of files to upload from FILE
 
     Common options:
         -h, --help                       Show this message

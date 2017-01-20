@@ -13,15 +13,15 @@ module Gphotos
         opts.banner = "Usage: #{$0} [options] file..."
         opts.separator "\nSpecific options:"
 
-        opts.on("-eEMAIL", "--email=EMAIL", "Set email") do |o|
+        opts.on("-eEMAIL", "--email=EMAIL", "Set email to EMAIL") do |o|
           options.email = o
         end
 
-        opts.on("-pPASSWD", "--passwd=PASSWD", "Set passwd") do |o|
+        opts.on("-pPASSWD", "--passwd=PASSWD", "Set passwd to PASSWD") do |o|
           options.passwd = o
         end
 
-        opts.on("-lFILE", "--list=FILE", "Read list from file") do |o|
+        opts.on("-lFILE", "--list=FILE", "Read list of files to upload from FILE") do |o|
           options.list = o
         end
 
