@@ -69,7 +69,8 @@ module Gphotos
     end
 
     def run
-      files = ARGV
+      files = []
+      files.concat(ARGV)
       if @options.list
         files.concat(open(@options.list).read.split("\n"))
       end
