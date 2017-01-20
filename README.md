@@ -20,9 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-Install [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/).
-
-On Debian:
+Install [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/). On Debian:
 
     # apt-get install chromium-driver
 
