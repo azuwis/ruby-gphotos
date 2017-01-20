@@ -46,7 +46,7 @@ module Gphotos
       element.submit
 
       @driver.find_element(:css => 'input[type="file"]')
-      File.write(@cookies ,@driver.manage.all_cookies.to_yaml)
+      File.write(@cookies ,@driver.manage.all_cookies.to_yaml, :perm => 0600)
     end
 
     def upload(files, &block)
