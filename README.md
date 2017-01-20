@@ -1,8 +1,6 @@
 # Gphotos
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/gphotos`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Use [Selenium WebDriver](http://www.seleniumhq.org/projects/webdriver/) to ease uploading files to [Google Photos](https://photos.google.com/).
 
 ## Installation
 
@@ -22,7 +20,48 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Install [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/).
+
+On Debian:
+
+    # apt-get install chromium-driver
+
+Command line options:
+
+    Usage: gphotos [options] file...
+
+    Specific options:
+        -e, --email=EMAIL                Set email
+        -p, --passwd=PASSWD              Set passwd
+        -l, --list=FILE                  Read list from file
+
+    Common options:
+        -h, --help                       Show this message
+        -V, --version                    Show version
+
+Example:
+
+    $ gphotos -e foo@gmail.com -p bar /path/to/image.jpg /path/to/video.mp4
+
+    upload:
+    /path/to/image.jpg
+    /path/to/video.mp4
+
+    done:
+    2 uploaded
+    0 skipped
+    0 not exist
+
+Set email and password in config file, `~/.gphotos.yml`:
+
+    :email: foo@gmail.com
+    :passwd: foo
+
+If you use password managers like [pass](https://www.passwordstore.org/), you can use `:passwd_exec` instead:
+
+    :passwd_exec: pass show foo@gmail.com
+
+Cookies will be saved in `~/.gphotos.cookies`, so you don't need to login every time.
 
 ## Development
 
@@ -32,7 +71,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/gphotos.
+Bug reports and pull requests are welcome on GitHub at https://github.com/azuwis/ruby-gphotos.
 
 
 ## License
