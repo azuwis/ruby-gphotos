@@ -51,7 +51,7 @@ module Gphotos
     def upload(files, &block)
       element = @driver.find_element(:css => 'input[type="file"]')
       # XXX Get upload working
-      element.send_keys(File.expand_path(files[0]))
+      element.send_keys(Dir.tmpdir)
 
       uploaded = []
       skipped = []
