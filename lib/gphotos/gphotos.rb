@@ -49,13 +49,14 @@ module Gphotos
     def upload(files, &block)
       element = @driver.find_element(:css => 'input[type="file"]')
       # XXX Get upload working
-      element.send_keys(files[0])
+      element.send_keys(File.expand_path(files[0]))
 
       uploaded = []
       skipped = []
       not_exist = []
       result = ''
       files.each do |file|
+        file = File.expand_path(file)
         if !File.exists?(file)
           not_exist.push(file)
           block.call(file, :not_exist)
