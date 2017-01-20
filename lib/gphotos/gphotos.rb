@@ -6,7 +6,9 @@ module Gphotos
 
     def initialize(email, passwd, passwd_exec, options = {})
       options = {:page_timeout => 20, :upload_timeout => 3600 }.merge(options)
-      @driver = Selenium::WebDriver.for(:chrome)
+      profile = Selenium::WebDriver::Chrome::Profile.new
+      profile['profile.managed_default_content_settings.images'] = 2
+      @driver = Selenium::WebDriver.for(:chrome, :profile => profile)
       @driver.manage.timeouts.implicit_wait = options[:page_timeout]
       @wait = Selenium::WebDriver::Wait.new(:timeout => options[:upload_timeout])
       @cookies = File.expand_path('~/.gphotos.cookies')
