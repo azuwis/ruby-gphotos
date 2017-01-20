@@ -77,7 +77,7 @@ module Gphotos
       gphotos = Gphotos.new(@options.email, @options.passwd, @options.passwd_exec)
 
       puts 'upload:'
-      uploaded, skipped = gphotos.upload(files) do |file, status|
+      uploaded, skipped, not_exist = gphotos.upload(files) do |file, status|
         if status == :uploaded
           puts "#{file}"
         else
@@ -90,6 +90,19 @@ module Gphotos
         puts 'skipped:'
         puts skipped.join("\n")
       end
+
+      if not_exist.size > 0
+        puts
+        puts 'not_exist:'
+        puts not_exist.join("\n")
+      end
+
+      puts
+      puts 'done:'
+      puts "#{uploaded.size} uploaded"
+      puts "#{skipped.size} skipped"
+      puts "#{not_exist.size} not exist"
+
       gphotos.quit
     end
 

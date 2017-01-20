@@ -53,9 +53,11 @@ module Gphotos
 
       uploaded = []
       skipped = []
+      not_exist = []
       result = ''
       files.each do |file|
         if !File.exists?(file)
+          not_exist.push(file)
           block.call(file, :not_exist)
           next
         end
@@ -81,7 +83,7 @@ module Gphotos
 
         result = current_result
       end
-      [uploaded, skipped]
+      [uploaded, skipped, not_exist]
     end
 
     def quit
