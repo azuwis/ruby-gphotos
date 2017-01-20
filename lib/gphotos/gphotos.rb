@@ -12,6 +12,7 @@ module Gphotos
       @driver.manage.timeouts.implicit_wait = options[:page_timeout]
       @wait = Selenium::WebDriver::Wait.new(:timeout => options[:upload_timeout])
       @cookies = File.expand_path('~/.gphotos.cookies')
+      @workaround_applied = false
       load_cookies(@cookies)
       login(email, passwd, passwd_exec)
     end
@@ -50,8 +51,11 @@ module Gphotos
 
     def upload(files, &block)
       element = @driver.find_element(:css => 'input[type="file"]')
-      # XXX Get upload working
-      element.send_keys(Dir.tmpdir)
+      if !@workaround_applied
+        # XXX Get upload working
+        element.send_keys(Dir.tmpdir)
+        @workaround_applied = true
+      end
 
       uploaded = []
       skipped = []
