@@ -5,7 +5,7 @@ module Gphotos
   class Gphotos
 
     def initialize(email, passwd, passwd_exec, options = {})
-      options = {:page_timeout => 20, :upload_timeout => 3600 }.merge(options)
+      options = {:page_timeout => 20, :upload_timeout => 7200 }.merge(options)
       profile = Selenium::WebDriver::Chrome::Profile.new
       profile['profile.managed_default_content_settings.images'] = 2
       @driver = Selenium::WebDriver.for(:chrome, :profile => profile)
