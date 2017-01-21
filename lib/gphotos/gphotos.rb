@@ -62,6 +62,7 @@ module Gphotos
       not_exist = []
       result = ''
       files.each do |file|
+        block.call(file, :uploading)
         full_path = File.expand_path(file)
         if !File.exists?(full_path)
           not_exist.push(file)
