@@ -62,14 +62,14 @@ module Gphotos
       not_exist = []
       result = ''
       files.each do |file|
-        file = File.expand_path(file)
-        if !File.exists?(file)
+        full_path = File.expand_path(file)
+        if !File.exists?(full_path)
           not_exist.push(file)
           block.call(file, :not_exist)
           next
         end
         current_result = ''
-        element.send_keys(file)
+        element.send_keys(full_path)
         @wait.until do
           alert = @driver.find_element(:css => 'div[role="alert"]')
           begin
