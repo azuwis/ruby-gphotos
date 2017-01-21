@@ -79,10 +79,13 @@ module Gphotos
 
       puts 'upload:'
       uploaded, skipped, not_exist = gphotos.upload(files) do |file, status|
-        if status == :uploaded
-          puts "#{file}"
-        else
-          puts "#{file} (#{status})"
+        case status
+        when :uploading
+          print "#{file} ..."
+        when :skipped, :not_exist
+          puts "\b\b\b(#{status})"
+        when :uploaded
+          puts "\b\b\b   "
         end
       end
 
