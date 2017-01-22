@@ -6,24 +6,13 @@ module Gphotos
 
     def initialize(email, passwd, passwd_exec, options = {})
       options = {:page_timeout => 20, :upload_timeout => 7200 }.merge(options)
-      profile = Selenium::WebDriver::Chrome::Profile.new
-      profile['profile.managed_default_content_settings.images'] = 2
-      @driver = Selenium::WebDriver.for(:chrome, :profile => profile)
+      user_data_dir = File.expand_path('~/.gphotos/chromedriver')
+      prefs = {"profile" => {"managed_default_content_settings" => {"images" => 2}}}
+      @driver = Selenium::WebDriver.for(:chrome, :args => ["--user-data-dir=#{user_data_dir}"], :prefs => prefs)
       @driver.manage.timeouts.implicit_wait = options[:page_timeout]
       @wait = Selenium::WebDriver::Wait.new(:timeout => options[:upload_timeout])
-      @cookies = File.expand_path('~/.gphotos.cookies')
       @workaround_applied = false
-      load_cookies(@cookies)
       login(email, passwd, passwd_exec)
-    end
-
-    def load_cookies(file)
-      @driver.navigate.to 'https://photos.google.com/'
-      if File.exists?(file)
-        YAML.load_file(file).each do |cookie|
-          @driver.manage.add_cookie(cookie)
-        end
-      end
     end
 
     def login(email, passwd, passwd_exec)
@@ -46,7 +35,6 @@ module Gphotos
       element.submit
 
       @driver.find_element(:css => 'input[type="file"]')
-      File.write(@cookies ,@driver.manage.all_cookies.to_yaml, :perm => 0600)
     end
 
     def upload(files, &block)
