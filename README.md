@@ -59,7 +59,7 @@ If you use password managers like [pass](https://www.passwordstore.org/), you ca
 
     :passwd_exec: pass show foo@gmail.com
 
-Cookies will be saved in `~/.gphotos.cookies`, so you don't need to login every time.
+ChromeDriver user data(browser settings, cookies, cache) will be saved in `~/.gphotos/chromedriver`, so you don't need to login every time. If you encounter any browser related problem, remove the user data directory and retry.
 
 ## Development
 
