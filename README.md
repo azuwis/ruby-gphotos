@@ -50,7 +50,7 @@ Example:
     0 skipped
     0 not exist
 
-Set email and password in config file, `~/.gphotos.yml`:
+Set email and password in config file, `~/.gphotos/config.yml`:
 
     :email: foo@gmail.com
     :passwd: foo

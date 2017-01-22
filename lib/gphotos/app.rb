@@ -64,7 +64,7 @@ module Gphotos
 
     def initialize(args)
       options = self.class.parse(args)
-      config = self.class.load_config('~/.gphotos.yml')
+      config = self.class.load_config('~/.gphotos/config.yml')
       @options = OpenStruct.new(config.merge(options.to_h))
     end
 
