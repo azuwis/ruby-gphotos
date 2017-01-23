@@ -10,7 +10,7 @@ module Gphotos
       prefs = {"profile" => {"managed_default_content_settings" => {"images" => 2}}}
       @driver = Selenium::WebDriver.for(:chrome, :args => ["--user-data-dir=#{user_data_dir}"], :prefs => prefs)
       @driver.manage.timeouts.implicit_wait = options[:page_timeout]
-      @wait = Selenium::WebDriver::Wait.new(:timeout => options[:upload_timeout])
+      @wait_upload = Selenium::WebDriver::Wait.new(:timeout => options[:upload_timeout])
       @workaround_applied = false
       login(email, passwd, passwd_exec)
     end
@@ -59,7 +59,7 @@ module Gphotos
         end
         current_result = ''
         element.send_keys(full_path)
-        @wait.until do
+        @wait_upload.until do
           alert = @driver.find_element(:css => 'div[role="alert"]')
           begin
             current_result = alert.attribute('innerText')
