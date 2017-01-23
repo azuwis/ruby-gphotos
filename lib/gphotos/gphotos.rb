@@ -1,5 +1,4 @@
 require 'selenium-webdriver'
-require 'yaml'
 
 module Gphotos
   class Gphotos
