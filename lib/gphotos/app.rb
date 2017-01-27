@@ -104,8 +104,8 @@ module Gphotos
       puts
       puts 'done:'
       puts "#{uploaded.size} uploaded"
-      puts "#{skipped.size} skipped"
-      puts "#{not_exist.size} not exist"
+      puts "#{skipped.size} skipped" if skipped.size > 0
+      puts "#{not_exist.size} not exist" if not_exist.size > 0
 
       gphotos.quit
     end
