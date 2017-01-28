@@ -77,7 +77,7 @@ module Gphotos
 
       gphotos = Gphotos.new(@options.email, @options.passwd, @options.passwd_exec)
 
-      puts 'upload:'
+      puts "upload(#{files.size}):"
       uploaded, skipped, not_exist = gphotos.upload(files) do |file, status|
         case status
         when :uploading
