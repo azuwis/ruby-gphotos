@@ -41,14 +41,12 @@ Example:
 
     $ gphotos -e foo@gmail.com -p bar /path/to/image.jpg /path/to/video.mp4
 
-    upload:
+    upload(2):
     /path/to/image.jpg
     /path/to/video.mp4
 
     done:
     2 uploaded
-    0 skipped
-    0 not exist
 
 Set email and password in config file, `~/.gphotos/config.yml`:
 
