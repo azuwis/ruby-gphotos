@@ -9,6 +9,7 @@ module Gphotos
       prefs = {"profile" => {"managed_default_content_settings" => {"images" => 2}}}
       @driver = Selenium::WebDriver.for(:chrome, :args => ["--user-data-dir=#{user_data_dir}"], :prefs => prefs)
       @driver.manage.timeouts.implicit_wait = options[:page_timeout]
+      @wait = Selenium::WebDriver::Wait.new(:timeout => 3)
       @wait_upload = Selenium::WebDriver::Wait.new(:timeout => options[:upload_timeout])
       @workaround_applied = false
       login(email, passwd, passwd_exec)
@@ -21,17 +22,27 @@ module Gphotos
         return
       end
 
-      element = @driver.find_element(:id => 'Email')
-      element.send_keys(email)
-      element.submit
+      element = nil
+
+      begin
+        @wait.until do
+          element = @driver.find_element(:css => 'input[type="email"]')
+          element.displayed?
+        end
+      rescue Selenium::WebDriver::Error::TimeOutError
+      else
+        element.send_keys(email + "\n")
+      end
 
       if !passwd and passwd_exec
         passwd = %x{#{passwd_exec}}.strip
       end
 
-      element = @driver.find_element(:id => 'Passwd')
-      element.send_keys(passwd)
-      element.submit
+      @wait.until do
+        element = @driver.find_element(:css => 'input[type="password"]')
+        element.displayed?
+      end
+      element.send_keys(passwd + "\n")
 
       @driver.find_element(:css => 'input[type="file"]')
     end
